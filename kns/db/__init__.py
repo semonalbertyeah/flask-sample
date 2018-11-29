@@ -85,6 +85,11 @@ def init_db():
         # pool_recycle=1       # mysql db default is 8 hours
     )
 
+    ThreadSession.configure(bind=engine)
+
+    metadata.bind = engine
+    metadata.create_all(checkfirst=True)    # checkfirst=True not working
+
     try:
         engine.execute('select 1;')
     except Exception as e:
@@ -92,11 +97,6 @@ def init_db():
         print u"database connection failed, exiting ...."
 
         sys.exit(-2)
-
-    ThreadSession.configure(bind=engine)
-
-    metadata.bind = engine
-    metadata.create_all(checkfirst=True)    # checkfirst=True not working
 
     return engine, ThreadSession
 
