@@ -47,4 +47,3 @@ def literalquery(statement):
         dialect=LiteralDialect(),
         compile_kwargs={'literal_binds': True},
     ).string
-

@@ -16,9 +16,6 @@
 
 from flask import request, session
 
-#from nms.app.wrappers import (
-#    json_response, abort, jabort
-#)
 from knsrest.wrappers import (
     json_response, abort, jabort
 )
@@ -36,7 +33,7 @@ from .user import (
 _login_check_exempts = []
 def login_exempt(view):
     """
-        skip over authentication and authorization.
+        URIs which is not authenticated.
     """
     global _login_check_exempts
     _login_check_exempts.append(view)

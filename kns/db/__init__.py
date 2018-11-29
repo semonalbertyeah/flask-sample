@@ -43,7 +43,6 @@ from sqlalchemy.sql import text
 from sqlalchemy import exc, event, select
 
 from .extension import *
-from ..entry import ENTRIES
 from .common import Base, ThreadSession
 
 
@@ -69,20 +68,14 @@ def init_db():
     global engine
     if engine:
         engine.dispose()
-    # db_host, db_port = ENTRIES['knsdb']
-    entry = ENTRIES.get('knsdb', wait_timeout=5)
-    if entry is None:
-        print "Timeout waiting database entry."
-        sys.exit(-2)
 
-    db_host, db_port = entry
+    username = "root"
+    password = "123456"
+    db_host = "127.0.0.1"
+    db_port = "3306"
+
     engine = create_engine(
-        # "mysql+pymysql://nms_admin:123qwe@knsdb/nms",
-        # "mysql+pymysql://nms_admin:123qwe@172.17.0.2:3306/nms",
-
-        # "mysql+pymysql://nms_admin:123qwe@%s:%s/nms" % (db_host, db_port),
-        "mysql+pymysql://root:123456@%s:%s/nms" % (db_host, db_port),  # this is for testing: to set wait_timeout
-
+        "mysql+pymysql://%s:%s@%s:%s/flasktestdb" % (username, password, db_host, db_port),
         # echo=True,
         isolation_level='READ_COMMITTED',
         # paramstyle='pyformat',
@@ -96,49 +89,9 @@ def init_db():
         engine.execute('select 1;')
     except Exception as e:
         # print u"failed to connect database, error message: %s" % unicode(e)
-        print u"wait database..."
+        print u"database connection failed, exiting ...."
 
         sys.exit(-2)
-
-    # for debugging:
-    #   to reproduce the exception: ""
-    # engine.execute('SET wait_timeout=2;')
-
-    # @event.listens_for(engine, "engine_connect")
-    # def ping_connection(connection, branch):
-    #     print '\n============ check db connection'
-    #     if branch:
-    #         print "========== branch."
-    #         # "branch" refers to a sub-connection of a connection,
-    #         # we don't want to bother pinging on these.
-    #         return
-
-    #     try:
-    #         print '============ ping.'
-    #         # run a SELECT 1.   use a core select() so that
-    #         # the SELECT of a scalar value without a table is
-    #         # appropriately formatted for the backend
-    #         connection.scalar(select([1]))
-    #         print '============ success.'
-    #     except exc.DBAPIError as err:
-    #         # catch SQLAlchemy's DBAPIError, which is a wrapper
-    #         # for the DBAPI's exception.  It includes a .connection_invalidated
-    #         # attribute which specifies if this connection is a "disconnect"
-    #         # condition, which is based on inspection of the original exception
-    #         # by the dialect in use.
-    #         if err.connection_invalidated:
-    #             # run the same SELECT again - the connection will re-validate
-    #             # itself and establish a new connection.  The disconnect detection
-    #             # here also causes the whole connection pool to be invalidated
-    #             # so that all stale connections are discarded.
-    #             print '============ second success.'
-    #             connection.scalar(select([1]))
-    #         else:
-    #             print '============ failure .'
-    #             raise
-    #     finally:
-    #         print '\n'
-
 
     ThreadSession.configure(bind=engine)
 

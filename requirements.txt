@@ -1,0 +1,12 @@
+pymysql==0.7.9
+sqlalchemy==1.2.11
+python-dateutil==2.6.0
+netaddr==0.7.19
+flask==1.0.2
+Flask-KVSession==0.6.2
+simplekv==0.10.0
+waitress==1.0.2
+gevent==1.2.1
+future==0.16.0
+ipaddress==1.0.18
+pytest

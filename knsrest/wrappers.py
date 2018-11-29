@@ -4,10 +4,8 @@ import types
 import json
 from flask import make_response, abort as flask_abort
 
-from zjsonrpc2 import RPCClient
 
 from kns.db import ThreadSession
-from kns.entry import ENTRIES
 
 
 def json_response(data, status=200, headers={}):
@@ -39,21 +37,4 @@ def jabort(data, status=400, headers={}):
         abort with json data
     """
     abort(json_response(data, status, headers))
-
-
-def knmp_client():
-    """
-        get a RPCClient to communicate with KNMP service
-        with timeout set to 30 seconds
-    """
-    # raise NotImplementedError, "find a way to get knmp service info"
-    host, port = ENTRIES['knmp_proxy']
-    return RPCClient("tcp://%s:%d" % (host, int(port)), timeout=30000)
-
-def snmp_client():
-    """
-        get a RPCClient to communicate with SNMP proxy.
-    """
-    host, port = ENTRIES['snmp_proxy']
-    return RPCClient("tcp://%s:%d" % (host, int(port)), timeout=30000)
 

@@ -141,36 +141,6 @@ def initial_nmsconfig_items(*args, **kwargs):
     """
         Add default configuration items.
     """
-    # nics = KNMP.all_netifs()
-    # if nics:
-    #     nic_name = nics[0].name
-    # else:
-    #     nic_name = None
-
-    # # add NMS config items on creation of table.
-    # ThreadSession.add(NMSConfig(name='KNMP_NIC_NAME', value='any'))
-    # ThreadSession.add(NMSConfig(name='KNMP_AGENT_SCAN_TIMEOUT', value=5))
-    # # ThreadSession.add(NMSConfig(name="SNMP_READ_COMMUNITY", value='public'))
-    # # ThreadSession.add(NMSConfig(name="SNMP_WRITE_COMMUNITY", value='private'))
-    # ThreadSession.add(NMSConfig(name="SNMP_TIMEOUT", value=5))
-    # ThreadSession.add(NMSConfig(name="SNMP_RETRIES", value=3))
-    # ThreadSession.add(NMSConfig(name='SNMP_POLLER_CONCURRENCY', value=4))
-    # ThreadSession.add(NMSConfig(name='SNMP_POLLER_PERIOD', value=3*60))
-    # ThreadSession.add(NMSConfig(name='TRAP_COMMUNITY', value="public"))
-    # # ThreadSession.add(NMSConfig(name="PING_CONCURRENCY", value=255))
-    # ThreadSession.add(NMSConfig(name="PING_TIMEOUT", value=5))
-
-
-    # ################################
-    # # Automatic Reboot Parameters
-    # ################################
-    # ThreadSession.add(NMSConfig(name="AUTO_REBOOT_SYS", value=AUTO_REBOOT_VAL_EVERY_WEEK))
-    # # 0 ~ 23 (unit: clock)
-    # ThreadSession.add(NMSConfig(name="AUTO_REBOOT_SYS_AT", value=0))
-    # # 0 ~ 6 (Monday ~ Sunday)
-    # ThreadSession.add(NMSConfig(name="AUTO_REBOOT_SYS_AT_WEEK_DAY", value=0))
-    # # 1 ~ 31
-    # ThreadSession.add(NMSConfig(name="AUTO_REBOOT_SYS_AT_MONTH_DAY", value=1))
 
     for name, opts in NMSConfig.keys.iteritems():
         ThreadSession.add(NMSConfig(name=name, value=opts['default_value']))
